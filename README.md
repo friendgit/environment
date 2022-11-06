@@ -4,12 +4,23 @@
 
 Enter where this file is and execute command:
 
+If you are using Apple Silicon CPU, use the command:
+
 ```
 docker build \
   --platform linux/amd64 \
   -t build_vm  \
   -f Dockerfile .
 ```
+
+If you are NOT using Apple Silicon CPU, use the command:
+
+```
+docker build \
+  -t build_vm  \
+  -f Dockerfile .
+```
+
 
 The above command will create an Docker image and install the libs needed for compile Ejabberd 14.12.
 
@@ -30,10 +41,22 @@ git checkout v14.12
 
 In ejabberd's folder, execute commands:
 
-```
 
+If you are using Apple Silicon CPU, use the command:
+
+```
 docker run -it --rm \
 --platform linux/amd64 \
+-v $PWD:$PWD \
+-w $PWD \
+build_vm /bin/bash
+```
+
+
+If you are NOT using Apple Silicon CPU, use the command:
+
+```
+docker run -it --rm \
 -v $PWD:$PWD \
 -w $PWD \
 build_vm /bin/bash
