@@ -14,7 +14,7 @@ docker build \
 The above command will create an Docker image and install the libs needed for compile Ejabberd 14.12.
 
 
-### 2. Compile
+### 2. Check out Source codes
 
 Clone Ejabberd repository and checkout to v14.12 branch
 
