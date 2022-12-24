@@ -214,12 +214,12 @@ centos7_vm /bin/bash
 
 cd ejabberd-14.12
 
+./autogen.sh 
 
+./configure
+
+make 
+
+make install
 ```
 
-
-
-
-Install Ejabberd 14.12
-
-Copy beam files.
