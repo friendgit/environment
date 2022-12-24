@@ -127,7 +127,6 @@ cd bin/
 ## Nginx 
 
 
-
 ```
  docker run  -d \
  --network mobifriend-network \
@@ -141,8 +140,86 @@ cd bin/
 ```
 
 
-
-
 ## Issues 
 
 https://github.com/processone/ejabberd/issues/1778
+
+
+## How to set up the en in a fresh env.
+
+Checkout environment git
+
+```
+git clone https://github.com/friendgit/environment.git
+```
+
+#### Build centos7_vm image
+```
+cd environment/CentOS7
+
+docker build \
+  -t centos7_vm  \
+  -f Dockerfile .
+```
+
+
+#### Build hbase_vm image
+```
+cd Hbase
+
+docker build \
+  -t hbase_vm  \
+  -f Dockerfile .
+  
+ 
+```
+
+
+#### Start Hbase Docker
+
+```
+ docker run  -d \
+ --name hbase \
+ -p 9090:9095 \
+ -p 2181:2181 \
+ -p 60000:60000 \
+ -p 60010:60010 \
+ -p 60020:60020 \
+ -p 60030:60030 \
+ hbase_vm  
+ 
+
+```
+
+Enter Hbase docker and start thrift
+
+```
+docker exec -it hbase /bin/bash
+cd bin/
+./hbase-daemon.sh start thrift
+```
+
+Copy the mobifriends-chatxmpp folder to the server.
+Enter where the folder mobifriends-chatxmpp is.
+
+```
+docker run -itd \
+--name im \
+-p 5280:5280 \
+-p 5222:5222 \
+-v $PWD:$PWD \
+-w $PWD \
+centos7_vm /bin/bash
+
+
+cd ejabberd-14.12
+
+
+```
+
+
+
+
+Install Ejabberd 14.12
+
+Copy beam files.
