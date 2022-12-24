@@ -9,7 +9,13 @@ If you are using Apple Silicon CPU, use the command:
 ```
 docker build \
   --platform linux/amd64 \
-  -t build_vm  \
+  -t centos7_vm  \
+  -f Dockerfile .
+  
+  
+  docker build \
+  --platform linux/amd64 \
+  -t hbase_vm  \
   -f Dockerfile .
 ```
 
@@ -45,11 +51,15 @@ In ejabberd's folder, execute commands:
 If you are using Apple Silicon CPU, use the command:
 
 ```
-docker run -it --rm \
+docker run -itd \
+--name im \
+ --network mobifriend-network \
 --platform linux/amd64 \
+-p 5280:5280 \
+-p 5222:5222 \
 -v $PWD:$PWD \
 -w $PWD \
-build_vm /bin/bash
+centos7_vm /bin/bash
 ```
 
 
@@ -73,4 +83,66 @@ make
 ```
 
 
+## REF
+
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=746073
+
+
+## HBase
+
+Enter HBase folder, execute:
+
+```
+docker build \
+  --platform linux/amd64 \
+  -t hbase_vm  \
+  -f Dockerfile .
+
+```
+
+Start Hbase VM.
+
+```
+ docker run  -d \
+ --network mobifriend-network \
+ --name hbase \
+ --platform linux/amd64 \
+ -p 9090:9095 \
+ -p 2181:2181 \
+ -p 60000:60000 \
+ -p 60010:60010 \
+ -p 60020:60020 \
+ -p 60030:60030 \
+ hbase_vm
+```
+
+#### start 
+ctn hbase
+
+
+cd bin/
+
+./hbase-daemon.sh start thrift
+
+## Nginx 
+
+
+
+```
+ docker run  -d \
+ --network mobifriend-network \
+ --name nginx \
+ --rm \
+ --platform linux/amd64 \
+ -p 8080:80 \
+ -v /Users/peter/Documents/MobiFriends/git/environment/nginx/config:/etc/nginx/conf.d \
+ -v /Users/peter/Documents/MobiFriends/git/chatxmpp/cliente:/usr/share/nginx/html/mobifriend \
+ nginx:1.21.0
+```
+
+
+
+
+## Issues 
+
+https://github.com/processone/ejabberd/issues/1778
